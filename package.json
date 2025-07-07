@@ -1,0 +1,13 @@
+{
+  "name": "sparta-intern-14th",
+  "version": "1.0.0",
+  "main": "app.js",
+  "repository": "https://github.com/liha-engineer/sparta-intern-14th.git",
+  "author": "liha-engineer",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^17.0.1",
+    "express": "^5.1.0"
+  }
+}
