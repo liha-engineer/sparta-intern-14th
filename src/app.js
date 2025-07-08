@@ -12,7 +12,5 @@ app.use(cookieParser());
 app.use('/', [accountsRouter]);
 
 app.listen(config.server.port, config.server.host, () => {
-  console.log(
-    `Sever running is on ${config.server.host}:${config.server.port}`,
-  );
+  console.log(`Sever running is on ${config.server.host}:${config.server.port}`);
 });
