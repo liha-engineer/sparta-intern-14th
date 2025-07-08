@@ -65,7 +65,7 @@ router.post('/login', async (req, res, next) => {
   const accessToken = jwt.sign(
     { accountId: username },
     process.env.ACCESSTOKEN_KEY,
-    { expiresIn: '30s' });
+    { expiresIn: '3m' });
 
   return res.status(200).header('authorization', `Bearer ${accessToken}`)
     .json({ token: accessToken });
