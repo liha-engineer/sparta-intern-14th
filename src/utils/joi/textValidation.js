@@ -4,7 +4,7 @@ const textValidation = {
   account: joi.object({
     username: joi
       .string()
-      .pattern(new RegExp('^[A-Za-z0-9-_.\s+]+$'))
+      .pattern(new RegExp('^[A-Za-z0-9-_.]+$'))
       .min(4)
       .max(12)
       .required()
@@ -22,7 +22,7 @@ const textValidation = {
       'string.max': '닉네임을 8자 이하로 입력해 주세요.',
     }),
 
-    password: joi.string().min(6).max(20).required().messages({
+    password: joi.string().pattern(new RegExp('^[A-Za-z0-9!@#$%^&*()_+]+$')).min(6).max(20).required().messages({
       'stirng.empty': '비밀번호를 입력해 주세요.',
       'string.min': '비밀번호를 6자 이상 입력해 주세요.',
       'string.max': '비밀번호를 20자 이하로 입력해 주세요.',
