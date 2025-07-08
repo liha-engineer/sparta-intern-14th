@@ -5,8 +5,8 @@ export const prisma = new PrismaClient({
   errorFormat: 'pretty',
 });
 
-export const findUser = async (username) => {
-  return await prisma.accounts.findFirst({
-    where: { username },
-  });
-};
+// export const findUser = async (username) => {
+//   return await prisma.accounts.findFirst({
+//     where: { username },
+//   });
+// };
