@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import textValidation from '../utils/joi/textValidation.js';
+import authMiddleware from '../middlewares/auth.middleware.js';
 import { prisma } from '../utils/prisma/index.js';
 import { findUser } from '../utils/prisma/index.js';
 
@@ -42,18 +43,18 @@ router.post('/signup', async (req, res, next) => {
   }
 })
 
+
 router.post('/login', async (req, res, next) => {
   const { username, password } = req.body;
-  if (!await findUser(username)) return res.status(401).json({
+  const foundUser = await findUser(username);
+  if (!foundUser) return res.status(404).json({
     error: {
       "code": "USER_NOT_FOUND",
       "message": "사용자가 존재하지 않습니다."
     }
   })
 
-  const foundUser = await findUser(username);
   const passwordCompare = await bcrypt.compare(password, foundUser.password);
-
   if (!passwordCompare) return res.status(401).json({
     "error": {
       "code": "INVALID_CREDENTIALS",
@@ -64,10 +65,42 @@ router.post('/login', async (req, res, next) => {
   const accessToken = jwt.sign(
     { accountId: username },
     process.env.ACCESSTOKEN_KEY,
-    { expiresIn: '6h' });
+    { expiresIn: '30s' });
 
   return res.status(200).header('authorization', `Bearer ${accessToken}`)
     .json({ token: accessToken });
+})
+
+
+router.get('/userinfo/:username', authMiddleware, async (req, res, next) => {
+  const { username } = req.params;
+  const requestedUser = req.user;
+  const foundUser = await prisma.accounts.findFirst({
+    where: { username: username },
+    select: {
+      accountUniqueId: true,
+      username: true,
+      nickname: true,
+      createdAt: true,
+    }
+  });
+
+  if (!foundUser) return res.status(404).json({
+    error: {
+      "code": "USER_NOT_FOUND",
+      "message": "사용자가 존재하지 않습니다."
+    }
+  })
+
+  if (requestedUser.username != foundUser.username) return res.status(403).json({
+    error: {
+      "code": "ACCESS_DENIED",
+      "message": "접근 권한이 없습니다."
+    }
+  })
+
+  return res.status(200).json({ account: foundUser });
+
 })
 
 export default router;
