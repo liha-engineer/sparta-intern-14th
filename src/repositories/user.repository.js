@@ -1,13 +1,15 @@
-import { prisma } from '../utils/prisma/index.js'
 
 export class UserRepository {
+    constructor(prisma) {
+        this.prisma = prisma;
+    }
 
     createUser = async (username, password, nickname) => {
         const foundUser = await this.findUser(username);
         if (foundUser) return {
 
         }
-        const createdUser = await prisma.accounts.create({
+        const createdUser = await this.prisma.accounts.create({
             data: {
                 username,
                 password,
@@ -23,7 +25,7 @@ export class UserRepository {
     }
 
     findUser = async (username) => {
-        const foundUser = await prisma.accounts.findFirst({
+        const foundUser = await this.prisma.accounts.findFirst({
             where: { username: username }
         });
         if(!foundUser) return false;
@@ -32,7 +34,7 @@ export class UserRepository {
     }
 
     getUserInfo = async (requestedUser, username) => {
-        const foundUser = await prisma.accounts.findFirst({
+        const foundUser = await this.prisma.accounts.findFirst({
             where: { username: requestedUser.username },
             select: {
                 accountUniqueId: true,

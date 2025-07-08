@@ -2,12 +2,12 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import textValidation from '../utils/joi/textValidation.js';
 import { prisma } from '../utils/prisma/index.js';
-import { UserService } from "../services/user.service.js";
 
 export class UserController {
-    userService = new UserService();
-
-
+    constructor(userService) {
+        this.userService = userService;
+    }
+    
     signup = async (req, res, next) => {
         try {
             const accountTextValidation = await textValidation.account.validateAsync(req.body);
@@ -22,8 +22,7 @@ export class UserController {
                     },
                 });
 
-            const hashedPassword = await bcrypt.hash(password, 10);
-            const createdUser = await this.userService.createUser(username, hashedPassword, nickname)
+            const createdUser = await this.userService.createUser(username, password, nickname)
 
             return res.status(201).json({
                 username: `${createdUser.username}`,
