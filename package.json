@@ -6,8 +6,21 @@
   "author": "liha-engineer",
   "license": "MIT",
   "type": "module",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
   "dependencies": {
+    "@prisma/client": "^6.11.1",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "dotenv": "^17.0.1",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.11.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2"
   }
 }
