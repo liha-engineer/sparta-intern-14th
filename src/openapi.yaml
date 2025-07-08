@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: 
+  description: 
+  license:
+    name: 
+servers:
+  - url: 0.0.0.0.:3000/PORT
+
+#Paths api 경로 지정
+paths: {}

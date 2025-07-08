@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "nodemon src/app.js",
     "format": "prettier --write *.js **/*.js",
+    "build": "tsc && node dist",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "dependencies": {
@@ -23,10 +24,14 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/swagger-ui-express": "^4.1.8",
+    "@types/yamljs": "^0.2.34",
     "jest": "^30.0.4",
     "nodemon": "^3.1.10",
     "prettier": "^3.6.2",
+    "swagger-autogen": "^2.23.7",
     "swagger-jsdoc": "^6.2.8",
-    "swagger-ui-express": "^5.0.1"
+    "swagger-ui-express": "^5.0.1",
+    "yamljs": "^0.3.0"
   }
 }
